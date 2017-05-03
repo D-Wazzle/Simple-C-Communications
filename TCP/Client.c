@@ -4,23 +4,23 @@ Author: Dylan Wallace, Drones and Autonomous Systems Lab, University of Nevada, 
 A simple C TCP client to connect to the server defined by Server.c. Allows the user to input the IP address, and connects to the defined port.
 Receives the message defined by Server.c. Made with the help of Beej's Guide to Network Programming.*/
 
-#include <stdio.h> // Standard Input/Ouput library
-#include <stdlib.h> // Standard library
-#include <unistd.h> // Unix API
-#include <errno.h> // Error library
-#include <string.h> // String library
-#include <netdb.h> // Internet database
-#include <sys/types.h> // System types library
+#include <stdio.h>      // Standard Input/Output library
+#include <stdlib.h>     // Standard library
+#include <unistd.h>     // Unix API
+#include <errno.h>      // Error library
+#include <string.h>     // String library
+#include <netdb.h>      // Internet database
+#include <sys/types.h>  // System types library
 #include <netinet/in.h> // Main internet library
 #include <sys/socket.h> // Sockets library
 
-#include <arpa/inet.h> // The Internet library
+#include <arpa/inet.h>  // The Internet library
 
-#define PORT "4800" // the port client will be connecting to
+#define PORT "4800"     // The port client will be connecting to
 
-#define MAXDATASIZE 100 // max number of bytes we can get at once
+#define MAXDATASIZE 100 // Max number of bytes we can get at once
 
-// Get sockaddr, IPv4 or IPv6
+// Function to get sockaddr, IPv4 or IPv6
 void *get_in_addr(struct sockaddr *sa)
 {
     if (sa->sa_family == AF_INET) { // If IPv4
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) // Get command line arguments
     }
 
     memset(&hints, 0, sizeof hints); // Fill out addrinfo with empty data
-    hints.ai_family = AF_UNSPEC; // Don't care if IPv4 or IPv6
+    hints.ai_family = AF_UNSPEC; // Don't care if IPv4 or IPv6 (set to AF_INET to force IPv4)
     hints.ai_socktype = SOCK_STREAM; // TCP type
 
     if ((rv = getaddrinfo(argv[1], PORT, &hints, &servinfo)) != 0) { // If getaddrinfo fails

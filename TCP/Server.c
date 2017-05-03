@@ -17,9 +17,9 @@ Made with the help of Beej's Guide to Network Programming.*/
 #include <sys/wait.h>   // Wait library
 #include <signal.h>     // Exception/error handler
 
-#define PORT "4800"     // the port users will be connecting to
+#define PORT "4800"     // The port users will be connecting to
 
-#define BACKLOG 10      // how many pending connections queue will hold
+#define BACKLOG 10      // How many pending connections queue will hold
 
 // Function to reap all dead processes
 void sigchld_handler(int s)
@@ -29,7 +29,7 @@ void sigchld_handler(int s)
 
     while(waitpid(-1, NULL, WNOHANG) > 0);
 
-    errno = saved_errno;
+    errno = saved_errno; // Restore errno
 }
 
 
@@ -55,9 +55,9 @@ int main(void)
     int rv; // Holds error status for getaddrinfo
 
     memset(&hints, 0, sizeof hints); // Fill out empty addrinfo struct
-    hints.ai_family = AF_UNSPEC; // Set family to either IPv4 or IPv6, we don't care
+    hints.ai_family = AF_UNSPEC; // Set family to either IPv4 or IPv6, we don't care (set to AF_INET to force IPv4)
     hints.ai_socktype = SOCK_STREAM; // Set socket type to stream (TCP)
-    hints.ai_flags = AI_PASSIVE; // Use my IP
+    hints.ai_flags = AI_PASSIVE; // Use my IP for the socket
 
     if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) { // If error in getaddrinfo
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv)); // Print error info
